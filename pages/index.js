@@ -20,14 +20,15 @@ export default function Home({ posts, categories }) {
         <Header text={'Products'}/>
         <div className="posts">
           {posts.map((p) => {
-            return <Post key={p.slug} image={p.image.fields} title={p.title} />
+            return <Post key={p.fields.slug} image={p.fields.image.fields} title={p.fields.title} id={p.sys.id} />
           })}
         </div>
 
         <Header text={'Categories'}/>
         <div className="categories">
-          {categories.map((p) => {
-            return <Category key={p.id} title={p.title} description={p.description} />
+          {categories.map((c) => {
+            console.log(c.fields.title + " " + c.sys.id)
+            return <Category key={c.fields.id} title={c.fields.title} description={c.fields.description} />
           })}
         </div>
       </main>
@@ -77,12 +78,12 @@ export default function Home({ posts, categories }) {
 export async function getStaticProps() {
   let res = await fetchEntries()
   const posts = await res.map((p) => {
-    return p.fields
+    return p
   })
 
   res = await fetchCategories()
-  const categories = await res.map((p) => {
-    return p.fields
+  const categories = await res.map((c) => {
+    return c
   })
 
   return {
