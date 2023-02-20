@@ -1,4 +1,4 @@
-function Post({ date, image, title }) {
+function Post({ image, title }) {
   let { file, description } = image
 
   return (
@@ -7,7 +7,6 @@ function Post({ date, image, title }) {
       <div className="description">{description}</div>
       <div className="text">
         <h2>{title}</h2>
-        <h3>{date.substring(0, 10)}</h3>
       </div>
 
       <style jsx>{`
@@ -37,7 +36,7 @@ function Post({ date, image, title }) {
           padding: 10px;
           box-sizing: border-box;
           width: 100%;
-          height: 70px;
+          height: 100px;
           background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0) 100%);
         }
         h2,

@@ -1,12 +1,14 @@
 import Head from 'next/head'
 
 import { fetchEntries } from '@utils/contentfulPosts'
+import { fetchCategories } from '@utils/contentfulCategories'
 
 import Header from '@components/Header'
 import Footer from '@components/Footer'
 import Post from '@components/Post'
+import Category from '@components/Category'
 
-export default function Home({ posts }) {
+export default function Home({ posts, categories }) {
   return (
     <div className="container">
       <Head>
@@ -15,10 +17,17 @@ export default function Home({ posts }) {
       </Head>
 
       <main>
-        <Header />
+        <Header text={'Products'}/>
         <div className="posts">
           {posts.map((p) => {
-            return <Post key={p.date} date={p.date} image={p.image.fields} title={p.title} />
+            return <Post key={p.slug} image={p.image.fields} title={p.title} />
+          })}
+        </div>
+
+        <Header text={'Categories'}/>
+        <div className="categories">
+          {categories.map((p) => {
+            return <Category key={p.id} title={p.title} description={p.description} />
           })}
         </div>
       </main>
@@ -66,14 +75,20 @@ export default function Home({ posts }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetchEntries()
+  let res = await fetchEntries()
   const posts = await res.map((p) => {
+    return p.fields
+  })
+
+  res = await fetchCategories()
+  const categories = await res.map((p) => {
     return p.fields
   })
 
   return {
     props: {
       posts,
+      categories
     },
   }
 }
